@@ -3,14 +3,22 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack --mode production",
+      "build": "next build && webpack --config webpack.config.js",
+    "start": "next start",
     "deploy": "gh-pages -d dist",
     "dev": "next dev"
   },
   "dependencies": {
-    "@radix-ui/react-checkbox": "^1.0.4",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/material": "^6.0.2",
+    "@radix-ui/react-checkbox": "^1.1.1",
+    "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-progress": "^1.1.0",
+    "@radix-ui/react-radio-group": "^1.2.0",
+    "@radix-ui/react-select": "^2.1.1",
     "@radix-ui/react-slot": "^1.1.0",
+    "@uploadthing/react": "^6.7.2",
     "@xano/js-sdk": "^2.0.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -18,10 +26,12 @@
     "next": "^14.2.8",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^14.2.3",
     "survey-core": "^1.11.14",
     "survey-react-ui": "^1.11.14",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "uploadthing": "^6.13.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

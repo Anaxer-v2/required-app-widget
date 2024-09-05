@@ -90,9 +90,7 @@ export const customTheme: ITheme = ({
         "--sjs-special-red": "rgba(229, 10, 62, 1)",
         "--sjs-font-editorfont-size":"14px",
         "--sjs-mobile-font-editorfont-size":"14px",
-        "--sjs-general-padding": "0px",
-        "--sjs-question-gap": "20px",// Adjust this value to increase or decrease spacing
-        
+        "--sjs-general-padding": "0px",        
         // You can also adjust font size if needed
         "--sjs-font-size": "16px",
     },

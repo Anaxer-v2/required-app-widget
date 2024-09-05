@@ -15,6 +15,7 @@ interface Task {
   instruction?: string;
   formJson?: any;
   completed: boolean;
+  allowMultiple?: boolean;
 }
 
 interface ApplicationProgressProps {
@@ -47,7 +48,8 @@ export default function ApplicationProgress() {
           title: item.title,
           instruction: item.instruction,
           formJson: item.metadata?.form_json,
-          completed: false
+          completed: false,
+          allowMultiple: item.metadata?.form_json?.allowMultiple || false
         })));
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -91,6 +93,7 @@ export default function ApplicationProgress() {
                 task={selectedTask} 
                 onBack={() => setSelectedTask(null)} 
                 onComplete={handleTaskComplete} 
+                allowMultiple={selectedTask?.allowMultiple}
               />
             ) : (
               <>

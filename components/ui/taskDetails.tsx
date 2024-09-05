@@ -1,9 +1,22 @@
 import React, { useEffect } from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { Model } from 'survey-core';
+import { Model, Serializer } from 'survey-core';
 import { Survey } from 'survey-react-ui';
 import 'survey-core/defaultV2.min.css';
 import { customTheme } from '@/customSurveyTheme';
+import './customBooleanWidget';
+import './customRadioGroupWidget';
+import './customMultiSelectWidget';
+import './customDropdownWidget';
+import './customFileUploadWidget';
+import './customCheckboxWidget'; // Add this line
+
+// Add this at the top of the file, outside of any component
+Serializer.addProperty("boolean", {
+  name: "useCustomStyle",
+  type: "boolean",
+  default: false
+});
 
 interface Task {
   id: string;
@@ -15,15 +28,30 @@ interface Task {
 interface TaskDetailsProps {
   task: Task;
   onBack: () => void;
-  onComplete: () => void; // Add this new prop
+  onComplete: () => void;
+  allowMultiple?: boolean;
 }
 
-export default function TaskDetails({ task, onBack, onComplete }: TaskDetailsProps) {
+const TaskDetails: React.FC<TaskDetailsProps> = ({ task, onBack, onComplete, allowMultiple }) => {
   const survey = task.formJson ? new Model(task.formJson) : null;
 
   useEffect(() => {
     if (survey) {
       survey.applyTheme(customTheme);
+
+      // Apply custom style to Boolean questions
+      survey.getAllQuestions().forEach(question => {
+        if (question.getType() === "boolean") {
+          (question as any).useCustomStyle = true;
+        }
+        // Set allowMultiple for file questions
+        if (question.getType() === "file") {
+          (question as any).allowMultiple = question.allowMultiple;
+        }
+        if (question.getType() === "checkbox") {
+          question.value = question.value || []; 
+        }
+      });
 
       // Modify file upload question properties
       const fileQuestion = survey.getQuestionByName("yourFileQuestionName");
@@ -54,6 +82,26 @@ export default function TaskDetails({ task, onBack, onComplete }: TaskDetailsPro
         console.log("Survey completed");
         onComplete(); // Call the onComplete function passed from the parent
       });
+
+      // Add event handler for onOpenDropdownMenu
+      survey.onOpenDropdownMenu.add((_, options) => {
+        if (options.deviceType === "mobile") {
+          options.menuType = "dropdown";
+        }
+      });
+
+      // Add this event handler to log value changes
+      survey.onValueChanged.add((sender, options) => {
+        console.log(`Question ${options.name} value changed to:`, options.value);
+      });
+
+      // Remove the unnecessary event handler for matrix cell value changes
+      // survey.onMatrixCellValueChanged.add((sender, options) => {
+      //   if (options.question.getType() === "checkbox") {
+      //     options.event?.preventDefault();
+      //   }
+      // });
+
     }
   }, [survey, onComplete]);
 
@@ -85,3 +133,5 @@ export default function TaskDetails({ task, onBack, onComplete }: TaskDetailsPro
     </div>
   );
 }
+
+export default TaskDetails;
