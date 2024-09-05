@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "webpack --mode production",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "dev": "next dev"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.0.4",
@@ -45,7 +46,8 @@
     "ts-loader": "^9.5.1",
     "typescript": "^5.5.4",
     "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.1.0"
   },
   "browserslist": [
     "> 1%",
