@@ -8,9 +8,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import TaskDetails from '@/components/ui/taskDetails'
 import '../fonts.css';
-import { Open_Sans } from 'next/font/google';
-
-const openSans = Open_Sans({ subsets: ['latin'] })
 
 interface Task {
   id: string;
@@ -87,7 +84,7 @@ export default function ApplicationProgress() {
     <div className="min-h-screen w-full bg-white sm:bg-gray-100 p-0">
       <Header />
       <div className="w-full max-w-[700px] mx-auto mt-10 px-0 sm:px-4">
-        <Card className={`${openSans.className} shadow-none border-none sm:shadow-lg sm:border`}>
+        <Card className="shadow-none border-none sm:shadow-lg sm:border">
           <CardContent className="px-5 sm:px-10 py-6 space-y-10">
             {selectedTask ? (
               <TaskDetails 
@@ -127,7 +124,7 @@ export default function ApplicationProgress() {
                                      transition-all duration-200 shadow-sm`}
                         >
                           {task.completed 
-                            ? <Image src="/check.svg" alt="Completed" width={16} height={16} />
+                            ? <Image src="https://required-widget.s3.amazonaws.com/check.svg" alt="Completed" width={16} height={16} />
                             : <Circle className="w-4 h-4 text-gray-400" />
                           }
                           <span className={`text-base font-medium ${task.completed ? 'text-[#08660d]' : 'text-[#1C2A3A]'}`}>
@@ -146,7 +143,7 @@ export default function ApplicationProgress() {
               Powered by
               <Link href="https://required.app" target="_blank" rel="noopener noreferrer" className="flex items-center">
                 <Image
-                  src="/requiredLogoBlack.svg"
+                  src="https://required-widget.s3.amazonaws.com/requiredLogoBlack.svg"
                   alt="Required Logo"
                   width={72}
                   height={18}
@@ -166,7 +163,7 @@ function Header() {
     <header className="w-full bg-black shadow-[0_2px_4px_-1px_rgba(0,0,0,0.3)]">
       <div className="w-full mx-auto px-4">
         <Image
-          src="/requiredLogo.svg"
+          src="https://required-widget.s3.amazonaws.com/requiredLogo.svg"
           alt="Required Logo"
           width={108}
           height={28}

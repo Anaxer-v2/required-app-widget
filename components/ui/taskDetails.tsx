@@ -73,9 +73,11 @@ export default function TaskDetails({ task, onBack, onComplete }: TaskDetailsPro
         <p className="text-base font-light text-[#1C2A3A]">{task.instruction}</p>
       )}
       <br></br>
-      <div className="min-h-[450px] bg-white custom-survey-container">
+      <div className="min-h-[450px] bg-white custom-survey-container no-margin-survey">
         {survey ? (
-          <Survey model={survey} />
+          <div className="survey-wrapper">
+            <Survey model={survey} />
+          </div>
         ) : (
           <p>No form available for this task.</p>
         )}

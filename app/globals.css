@@ -115,6 +115,69 @@ html, body {
   padding-right: 5px;
 }
 
+.custom-survey-container {
+  overflow-x: hidden;
+}
+
+.sv_main {
+  overflow-x: hidden;
+}
+
+.sv_main .sv_container {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.sv_main .sv_body {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* Add these rules at the end of your globals.css file */
+
+.custom-survey-container,
+.sv_main,
+.sv_main .sv_container,
+.sv_main .sv_body {
+  overflow-x: hidden;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.sv_main .sv_container {
+  margin: 0;
+  padding: 0;
+}
+
+.sv_main .sv_body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Target specific SurveyJS elements that might cause overflow */
+.sv_row, .sv_qstn, .sv_q_title_cell, .sv_q_cell {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Adjust padding for mobile views */
+@media (max-width: 600px) {
+  .custom-survey-container .sd-root-modern--mobile .sd-body {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.sd-body.sd-body--static {
+  margin: 0 !important;
+  padding: 5px !important;
+}
+
+.no-margin-survey .sd-body.sd-body--static {
+  margin: 0 !important;
+  padding: 5px !important;
+}
+
 
 
 

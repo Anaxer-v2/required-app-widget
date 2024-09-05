@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import ApplicationProgress from '../components/ApplicationProgress';
+import '../fonts.css';  // Add this line
+import '../app/globals.css';  // Add this line
 
 function initWidget(containerId?: string) {
   try {
@@ -31,4 +33,5 @@ function initWidget(containerId?: string) {
   }
 }
 
+// Export the function directly
 export { initWidget };
