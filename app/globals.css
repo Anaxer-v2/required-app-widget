@@ -101,3 +101,20 @@ html, body {
   width: 100%;
   overflow-x: hidden;
 }
+
+.custom-survey-container .sd-root-modern--mobile .sd-body.sd-body--responsive,
+.custom-survey-container .sd-root-modern--mobile .sd-body.sd-body--static {
+  padding: 0px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* For non-mobile views, if needed */
+.custom-survey-container .sd-body {
+  margin-left: 5px;
+  padding-right: 5px;
+}
+
+
+
+

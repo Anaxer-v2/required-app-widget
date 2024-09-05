@@ -68,5 +68,12 @@ const config: Config = {
   	}
   },
   plugins: [require("tailwindcss-animate")],
+  safelist: [
+    'custom-survey-container',
+    'sd-root-modern--mobile',
+    'sd-body',
+    'sd-body--responsive',
+    'sd-body--static'
+  ]
 };
 export default config;

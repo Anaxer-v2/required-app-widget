@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
 import { Circle, Loader2, ArrowLeft } from "lucide-react"
@@ -15,23 +15,12 @@ interface Task {
   id: string;
   title: string;
   instruction?: string;
-  // Removed the 'type' property
+  formJson?: any;
+  completed: boolean;
 }
 
-function Header() {
-  return (
-    <header className="w-full bg-black shadow-[0_2px_4px_-1px_rgba(0,0,0,0.3)]">
-      <div className="w-full mx-auto px-4">
-        <Image
-          src="/requiredLogo.svg"
-          alt="Required Logo"
-          width={108}
-          height={28}
-          className="py-4"
-        />
-      </div>
-    </header>
-  )
+interface ApplicationProgressProps {
+  clientId: string;
 }
 
 export default function ApplicationProgress() {
@@ -39,9 +28,14 @@ export default function ApplicationProgress() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
+  const calculateProgress = useCallback(() => {
+    const completedCount = tasks.filter(task => task.completed).length;
+    return tasks.length === 0 ? 0 : Math.round((completedCount / tasks.length) * 100);
+  }, [tasks]);
+
   useEffect(() => {
     const fetchTasks = async () => {
-      const clientId = '6900b86b-c29c-46a4-85cd-df0fc91eb2f2';
+      const clientId = '6900b86b-c29c-46a4-85cd-df0fc91eb2f2'; // Hardcoded client ID
       try {
         const response = await fetch(`https://api.required.app/api:35hUIBHe/widget/requirements/${clientId}`, {
           method: 'GET',
@@ -50,11 +44,12 @@ export default function ApplicationProgress() {
           }
         });
         const data = await response.json();
-        console.log('Fetched data:', data);
         setTasks(data.map((item: any) => ({ 
           id: item.id, 
           title: item.title,
-          instruction: item.instruction
+          instruction: item.instruction,
+          formJson: item.metadata?.form_json,
+          completed: false
         })));
       } catch (error) {
         console.error('Error fetching tasks:', error);
@@ -66,13 +61,26 @@ export default function ApplicationProgress() {
     fetchTasks();
   }, []);
 
-  const handleTaskClick = (task: Task) => {
-    setSelectedTask(task);
-  };
+  const handleTaskComplete = useCallback(() => {
+    if (selectedTask) {
+      setTasks(prevTasks => 
+        prevTasks.map(task => 
+          task.id === selectedTask.id ? { ...task, completed: true } : task
+        )
+      );
+      setSelectedTask(null);
+    }
+  }, [selectedTask]);
 
-  const handleBackClick = () => {
-    setSelectedTask(null);
-  };
+  const handleTaskClick = useCallback((task: Task) => {
+    if (!task.completed) {
+      setSelectedTask(task);
+    }
+  }, []);
+
+  const isTaskCompleted = useCallback((taskId: string) => 
+    tasks.find(task => task.id === taskId)?.completed || false
+  , [tasks]);
 
   return (
     <div className="min-h-screen w-full bg-white sm:bg-gray-100 p-0">
@@ -81,10 +89,18 @@ export default function ApplicationProgress() {
         <Card className={`${openSans.className} shadow-none border-none sm:shadow-lg sm:border`}>
           <CardContent className="px-5 sm:px-10 py-6 space-y-10">
             {selectedTask ? (
-              <TaskDetails task={selectedTask} onBack={handleBackClick} />
+              <TaskDetails 
+                task={selectedTask} 
+                onBack={() => setSelectedTask(null)} 
+                onComplete={handleTaskComplete} 
+              />
             ) : (
               <>
-                <Progress value={25} className="w-full h-2 mt-7" />
+                <Progress 
+                  value={calculateProgress()} 
+                  max={100}
+                  className="w-full h-2 mt-7" 
+                />
                 <div className="space-y-6">
                   <div className="space-y-2">
                     <h2 className="text-[20px] font-semibold text-[#1c2a3a]">Almost there!</h2>
@@ -103,12 +119,17 @@ export default function ApplicationProgress() {
                         <div 
                           key={task.id}
                           onClick={() => handleTaskClick(task)}
-                          className="flex items-center space-x-3 p-4 border rounded-lg cursor-pointer
-                                     hover:border-black hover:bg-gray-50 transition-all duration-200
-                                     shadow-sm"
+                          className={`flex items-center space-x-3 p-4 border rounded-lg 
+                                     ${task.completed 
+                                       ? 'bg-[#e9fcd4] cursor-default' 
+                                       : 'cursor-pointer hover:border-black hover:bg-gray-50'} 
+                                     transition-all duration-200 shadow-sm`}
                         >
-                          <Circle className="w-4 h-4 text-gray-400" />
-                          <span className="text-base font-medium text-[#1C2A3A]">
+                          {task.completed 
+                            ? <Image src="/check.svg" alt="Completed" width={16} height={16} />
+                            : <Circle className="w-4 h-4 text-gray-400" />
+                          }
+                          <span className={`text-base font-medium ${task.completed ? 'text-[#08660d]' : 'text-[#1C2A3A]'}`}>
                             {task.title}
                           </span>
                         </div>
@@ -136,5 +157,21 @@ export default function ApplicationProgress() {
         </Card>
       </div>
     </div>
+  )
+}
+
+function Header() {
+  return (
+    <header className="w-full bg-black shadow-[0_2px_4px_-1px_rgba(0,0,0,0.3)]">
+      <div className="w-full mx-auto px-4">
+        <Image
+          src="/requiredLogo.svg"
+          alt="Required Logo"
+          width={108}
+          height={28}
+          className="py-4"
+        />
+      </div>
+    </header>
   )
 }
