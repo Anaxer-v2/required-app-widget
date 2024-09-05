@@ -6,7 +6,7 @@ module.exports = {
   output: {
     filename: 'widget.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'Widget',
+    library: 'RequiredWidget',
     libraryTarget: 'umd',
     globalObject: 'this'
   },
@@ -50,7 +50,8 @@ module.exports = {
       'process.env': JSON.stringify(process.env)
     }),
     new webpack.ProvidePlugin({
-      process: 'process/browser'
+      process: 'process/browser',
+      React: 'react'
     })
   ]
 };
