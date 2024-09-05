@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "webpack --mode production",
-    "start": "next start",
-    "lint": "next lint",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

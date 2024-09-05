@@ -6,8 +6,9 @@ import { Progress } from "@/components/ui/progress"
 import { Circle, Loader2, ArrowLeft } from "lucide-react"
 import Image from 'next/image'
 import Link from 'next/link'
-import { Open_Sans } from 'next/font/google'
 import TaskDetails from '@/components/ui/taskDetails'
+import '../fonts.css';
+import { Open_Sans } from 'next/font/google';
 
 const openSans = Open_Sans({ subsets: ['latin'] })
 

@@ -33,12 +33,16 @@ module.exports = {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
       },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: 'asset/resource',
+      },
     ],
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': '{}',
-      'process': '{}'
+      'process.env': JSON.stringify({}),
+      'process': JSON.stringify({})
     })
   ]
-};
+}
