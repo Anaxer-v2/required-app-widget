@@ -42,9 +42,12 @@ function initWidget(containerId?: string) {
   }
 }
 
-// Expose the init function to the global scope immediately
-(function(window: Window) {
-  window.RequiredWidget = {
-    init: initWidget,
-  };
-})(window);
+// Export the init function
+export const RequiredWidget: RequiredWidget = {
+  init: initWidget,
+};
+
+// Expose the RequiredWidget to the global scope
+if (typeof window !== 'undefined') {
+  window.RequiredWidget = RequiredWidget;
+}

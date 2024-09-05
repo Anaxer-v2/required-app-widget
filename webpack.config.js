@@ -6,12 +6,18 @@ module.exports = {
   output: {
     filename: 'widget.js',
     path: path.resolve(__dirname, 'dist'),
+    library: 'Widget',
+    libraryTarget: 'umd',
+    globalObject: 'this'
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
     alias: {
       '@': path.resolve(__dirname, '.'),
     },
+    fallback: {
+      "process": require.resolve("process/browser")
+    }
   },
   module: {
     rules: [
@@ -41,8 +47,10 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': JSON.stringify({}),
-      'process': JSON.stringify({})
+      'process.env': JSON.stringify(process.env)
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser'
     })
   ]
-}
+};
