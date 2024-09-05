@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import ApplicationProgress from '../components/ApplicationProgress';
 
+console.log('Widget script executing');
+
 interface RequiredWidget {
   init: (containerId?: string) => void;
 }
@@ -47,7 +49,8 @@ export const RequiredWidget: RequiredWidget = {
   init: initWidget,
 };
 
-// Expose the RequiredWidget to the global scope
 if (typeof window !== 'undefined') {
+  console.log('Attaching RequiredWidget to window');
   window.RequiredWidget = RequiredWidget;
+  console.log('RequiredWidget attached:', window.RequiredWidget);
 }
